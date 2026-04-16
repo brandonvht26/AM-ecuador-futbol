@@ -4,7 +4,7 @@ import { teams } from "../../data/teams";
 
 export default function TeamDetailScreen() {
     // Lee el id desde la ruta dinámica /team/[id].
-    const { id } = useLocalSearchParams()<{ id: string }>();
+    const { id } = useLocalSearchParams<{ id: string }>();
     // Busca el equipo correspondiente en el arreglo de datos local.
     const team = teams.find((t) => t.id === id);
 
