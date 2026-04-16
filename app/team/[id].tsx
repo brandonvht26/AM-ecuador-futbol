@@ -2,10 +2,12 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { View, Text, StyleSheet, Image, ScrollView, Pressable, TouchableOpacity, ActivityIndicator, Modal } from "react-native";
 import { useState } from "react";
 import { teams } from "../../data/teams";
+import { useFavorite } from "../../hooks/useFavorite";
 
 export default function TeamDetailScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const team = teams.find((t) => t.id === id);
+    const { isFavorite, toggleFavorite } = useFavorite();
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
 
@@ -16,6 +18,8 @@ export default function TeamDetailScreen() {
             </View>
         );
     }
+
+    const isTeamFavorite = isFavorite(team.id);
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -40,7 +44,16 @@ export default function TeamDetailScreen() {
             <Image source={team.stadium} style={styles.stadium} resizeMode="cover" />
             <Text style={styles.historia}>{team.historia}</Text>
             
-            <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)}>
+            <TouchableOpacity 
+                style={[styles.button, isTeamFavorite && styles.buttonFavorite]} 
+                onPress={() => toggleFavorite(team.id)}
+            >
+                <Text style={styles.buttonText}>
+                    {isTeamFavorite ? "❤️ Quitar de favoritos" : "🤍 Marcar como favorito"}
+                </Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.buttonSecondary} onPress={() => setShowModal(true)}>
                 <Text style={styles.buttonText}>Ver Información Adicional</Text>
             </TouchableOpacity>
             
@@ -112,6 +125,16 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 30,
         backgroundColor: "#1a1a2e",
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        borderRadius: 10
+    },
+    buttonFavorite: {
+        backgroundColor: "#e74c3c",
+    },
+    buttonSecondary: {
+        marginTop: 15,
+        backgroundColor: "#3498db",
         paddingVertical: 15,
         paddingHorizontal: 30,
         borderRadius: 10
