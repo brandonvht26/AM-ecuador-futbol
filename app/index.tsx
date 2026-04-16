@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { FlatList, StyleSheet, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import TeamCard from "../components/TeamCard";
 import { Team, teams } from "../data/teams";
 
@@ -18,6 +19,7 @@ export default function HomeScreen() {
                 renderItem={({ item }) => <TeamCard team={item} />}
                 contentContainerStyle={styles.list}
             />
+            <StatusBar style="light" />
         </View>
     );
 }
