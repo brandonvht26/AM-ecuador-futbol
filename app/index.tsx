@@ -1,21 +1,14 @@
-import { Stack } from "expo-router";
 import { FlatList, StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import TeamCard from "../components/TeamCard";
-import { Team, teams } from "../data/teams";
+import { teams } from "../data/teams";
 
-// Pantalla principal: muestra el listado de equipos del fútbil ecuatoriano.
 export default function HomeScreen() {
     return (
         <View style={styles.container}>
-            {/* Configura el título de la pantalla en el header */}
-            <Stack.Screen options={{ title: "Equipos de Fútbol" }} />
-            <FlatList<Team>
-                // Fuente de datos para renderizar cada tarjeta.
+            <FlatList
                 data={teams}
-                // Usa el id único de cada equipo como clave de lista.
                 keyExtractor={(item) => item.id}
-                // Renderiza una tarjeta por cada elemento del arreglo.
                 renderItem={({ item }) => <TeamCard team={item} />}
                 contentContainerStyle={styles.list}
             />
